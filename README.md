@@ -28,8 +28,8 @@
     - 在 `.env` 文件中填入必要信息，包括 `DISCORD_BOT_TOKEN`, `OPENAI_API_KEY` 等。
 
 4. **填入提示词**:
-    - 在prompt文件夹中新建ALL.txt，这里的提示词将用作rag查询失败时的备用方案。
-    - 在rag_prompt文件夹中新建ALL.txt，这里的提示词将被向量化并用作主要提示词。
+    - 在根目录新建prompt文件夹，在其中新建ALL.txt，这里的提示词将用作rag查询失败时的备用方案。
+    - 在根目录新建rag_prompt文件夹，在其中新建ALL.txt，这里的提示词将被向量化并用作主要提示词。
       - 使用markdown格式编写此文档，用`===`分隔大段，`---`分隔小段以取得最佳效果（由rag_indexer.py决定）。
 
 5.  **初始化RAG (首次运行)**:
@@ -43,6 +43,10 @@
     ```bash
     python bot.py
     ```
+
+7. (可选)**配置反馈功能**:
+    - 在根目录新建commit_prompt文件夹，其中放置commit_head.txt和commit_end.txt，分别作为提交反馈后LLM自动分析时接收到提示词的头部和尾部。
+    - 在rag_prompt文件夹中新建commited.txt，留空即可。
 
 ## 邀请机器人
 
