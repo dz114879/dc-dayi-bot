@@ -1,0 +1,111 @@
+# Python 基础忽略项
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# 虚拟环境
+venv/
+ENV/
+env/
+.venv
+
+# IDE 相关
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# 环境配置文件
+.env
+.env.*
+.env.local
+.env.*.local
+
+# 日志文件
+logs/
+*.log
+shieldlog/
+
+# 所有 save 和 temp 文件夹
+**/save/
+**/temp/
+*_save/
+*_temp/
+agent_save/
+app_save/
+app_temp/
+
+# prompt
+shield_prompt/
+prompt/
+rag_prompt/
+commit_prompt/
+agent_prompt/
+
+# docs 文件夹
+docs/
+agent_implementation_plan.md
+
+# scripts 文件夹中除了 init_rag.py 以外的所有文件
+scripts/*
+!scripts/init_rag.py
+!scripts/
+
+# 数据库文件
+db.json
+*.db
+*.sqlite
+*.sqlite3
+
+# RAG 数据和向量数据库
+rag_data/
+chroma_db/
+
+# 上传的文件和缓存
+uploaded_prompt/
+.cache/
+*.cache
+
+# 临时文件
+*.tmp
+*.bak
+*.backup
+*.old
+
+# 测试脚本（额外的测试文件匹配）
+test_*.py
+*_test.py
+tests/
+verify_db.py
+
+# 其他项目特定文件
+.kilocode/
+.trae/
+migrate_db.py
+add_kn_owner.py
+
+# 系统文件
+desktop.ini
+.Spotlight-V100
+.Trashes

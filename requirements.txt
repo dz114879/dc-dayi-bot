@@ -1,0 +1,15 @@
+discord.py==2.6.2
+openai==1.102.0
+psutil==7.0.0
+python-dotenv==1.1.1
+
+# RAG系统依赖
+chromadb==0.4.22
+langchain==0.1.0
+langchain-community==0.0.10
+tiktoken==0.5.2
+numpy==1.24.3
+
+# 多模态RAG依赖
+Pillow==10.3.0  # 图片处理
+aiofiles==23.2.1  # 异步文件操作
