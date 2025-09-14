@@ -395,8 +395,67 @@ class AppDayi(commands.Cog):
         # 🔥 黄金法则：永远先 defer！
         await safe_defer(interaction)
         
-        # --- 权限检查 ---
         user_id = interaction.user.id
+        
+        # --- 封禁检查 ---
+        # 检查被引用消息的作者是否被封禁
+        target_user = message.author
+        target_user_id = str(target_user.id)  # 转换为字符串以匹配JSON格式
+        
+        # 从 banlist.json 加载封禁列表
+        try:
+            banlist_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'banlist.json')
+            with open(banlist_path, 'r', encoding='utf-8') as f:
+                banlist_data = json.load(f)
+                
+            # 检查用户是否在封禁列表中
+            banned_user_info = None
+            current_timestamp = datetime.now().timestamp()
+            
+            for ban_entry in banlist_data.get('banlist', []):
+                if ban_entry['ID'] == target_user_id:
+                    # 检查是否已经解封
+                    unbanned_at = int(ban_entry['unbanned_at'])
+                    if current_timestamp < unbanned_at:
+                        banned_user_info = ban_entry
+                        break
+            
+            if banned_user_info:
+                # 格式化解封时间
+                unbanned_timestamp = int(banned_user_info['unbanned_at'])
+                unbanned_date = datetime.fromtimestamp(unbanned_timestamp)
+                formatted_date = unbanned_date.strftime('%Y年%m月%d日 %H:%M:%S')
+                
+                # 构建封禁信息消息
+                ban_message = (
+                    f"❌ **该用户已被开发者封禁**\n\n"
+                    f"**用户ID:** {banned_user_info['ID']}\n"
+                    f"**封禁原因:** {banned_user_info['reason']}\n"
+                    f"**解封时间:** {formatted_date}"
+                )
+                
+                # 在频道公开发送封禁消息（不使用embed）
+                await interaction.channel.send(ban_message)
+                
+                # 编辑原始响应（私有消息）
+                await interaction.edit_original_response(content="❌ 该用户已被封禁，无法对其使用快速答疑功能。")
+                
+                print(f"🚫 尝试对封禁用户 {target_user_id} ({target_user.name}) 的消息使用快速答疑")
+                print(f"   封禁原因: {banned_user_info['reason']}")
+                print(f"   解封时间: {formatted_date}")
+                return
+                
+            # 调试日志
+            print(f"✅ 用户 {target_user_id} ({target_user.name}) 未被封禁")
+            
+        except FileNotFoundError:
+            print("⚠️ banlist.json 文件不存在，跳过封禁检查")
+        except json.JSONDecodeError as e:
+            print(f"❌ 解析 banlist.json 失败: {e}")
+        except Exception as e:
+            print(f"❌ 封禁检查出错: {e}")
+            
+        # --- 权限检查 ---
         if not (user_id in self.bot.admins or user_id in self.bot.trusted_users):
             
             await interaction.edit_original_response(content='❌ 没权。此命令仅限答疑组使用。')
